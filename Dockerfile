@@ -10,4 +10,8 @@ WORKDIR /semantic-emb-api
 
 COPY ./requirements.txt /semantic-emb-api/requirements.txt
 
+RUN python -m pip install -r requirements.txt
+
 COPY . /semantic-emb-api
+
+RUN python setup.py
