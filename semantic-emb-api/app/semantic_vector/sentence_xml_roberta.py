@@ -24,16 +24,16 @@ class SentenceXMLRoberta(SemanticVectorModel):
         self.model.compile()
 
     def get_vector(self, text: str, language: str = "english") -> list:
-            try:
-                return (
-                    self.model.encode(sent_tokenize(text, language=language))
-                    .mean(axis=0)
-                    .tolist()
-                )
-            except LookupError:
-                # Use the default (English)
-                print("# Warning, using default language (English) to senticize.", file=sys.stderr)
-                return self.model.encode(sent_tokenize(text)).mean(axis=0).tolist()
+        try:
+            sents_to_encode = sent_tokenize(text, language=language)
+        except LookupError:
+            # Use the default (English)
+            sents_to_encode = sent_tokenize(text)
+            print(
+                "# Warning, using default language (English) to senticize.",
+                file=sys.stderr,
+            )
+        return self.model.encode(sents_to_encode).mean(axis=0).tolist()
 
     def get_model_name(self) -> str:
         return self.model_name
