@@ -1,7 +1,6 @@
 from flask import Flask, request, Response
 from datetime import datetime
 from semantic_vector import semantic_embedding_model
-
 import os
 import decimal
 import json
@@ -26,13 +25,12 @@ class DateTimeEncoder(json.JSONEncoder):
 def json_result(dictionary):
     stringified = json.dumps(dictionary, cls=DateTimeEncoder)
     resp = Response(stringified, status=200, mimetype="application/json")
+
     return resp
 
 
 @app.route("/get_article_embedding", methods=["POST"])
 def get_article_embedding():
-    
-
     article_content = request.json.get("article_content", "")
     article_language = request.json.get("language", "english")
     return json_result(
@@ -41,4 +39,9 @@ def get_article_embedding():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=FLASK_PORT)
+    from waitress import serve
+    import logging
+
+    logger = logging.getLogger("waitress")
+    logger.setLevel(logging.INFO)
+    serve(app, host="0.0.0.0", port=FLASK_PORT)
