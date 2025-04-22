@@ -12,8 +12,8 @@ COPY ./requirements.txt /semantic-emb-api/requirements.txt
 
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
-RUN python -m pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY . /semantic-emb-api
 
-RUN python setup.py
+RUN python semantic-emb-api/setup.py
